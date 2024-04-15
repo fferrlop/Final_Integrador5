@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import AnalisisGenómico.ConteoGenes;
 import AnalisisGenómico.CalculoCombinaciones;
@@ -13,7 +14,6 @@ public class InterfazUsuario {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Ejercicios");
         frame.setSize(800, 600);
-
 
         CardLayout cardLayout = new CardLayout();
         JPanel mainPanel = new JPanel(cardLayout);
@@ -40,11 +40,28 @@ public class InterfazUsuario {
 
 
         JPanel genesPanel = new JPanel();
-        genesPanel.add(new JLabel("Aquí va el análisis de genes"));
+        JTextField dnaField = new JTextField(20);
+        JButton analyzeButton = new JButton("Analizar");
+        analyzeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String dna = dnaField.getText();
+                    int numGenes = ConteoGenes.contarGenes(dna);
+                    List<String> combinaciones = CalculoCombinaciones.calcularCombinaciones(dna);
+                    JOptionPane.showMessageDialog(frame, "Número de genes: " + numGenes + "\nCodones: " + combinaciones);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        genesPanel.add(new JLabel("Introduce el patrón de ADN:"));
+        genesPanel.add(dnaField);
+        genesPanel.add(analyzeButton);
 
 
         JPanel numericoPanel = new JPanel();
-        numericoPanel.add(new JLabel("Aquí va el análisis numérico"));
+        numericoPanel.add(new JLabel("Análisis numérico"));
 
 
         mainPanel.add(startPanel, "Inicio");

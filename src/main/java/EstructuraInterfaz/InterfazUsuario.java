@@ -4,12 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import AnalisisGenómico.ConteoGenes;
 import AnalisisGenómico.CalculoCombinaciones;
+import AnalisisNúmerico.PotenciasMaximos;
 import AnalisisNúmerico.SumListNumeros;
 
 public class InterfazUsuario {
@@ -22,6 +24,7 @@ public class InterfazUsuario {
         JPanel mainPanel = new JPanel(cardLayout);
 
         JPanel startPanel = new JPanel();
+
 
         JButton buttonGenes = new JButton("Contador de Genes");
         buttonGenes.addActionListener(new ActionListener() {
@@ -134,6 +137,54 @@ public class InterfazUsuario {
         numericoPanel.add(generateRangeButton);
         numericoPanel.add(new JLabel("Números en el rango:"));
         numericoPanel.add(rangeResultArea);
+
+        JTextField baseField = new JTextField(20);
+        JTextField exponentField = new JTextField(20);
+        JLabel powerResultLabel = new JLabel();
+        JButton calculatePowerButton = new JButton("Calcular Potencia");
+        calculatePowerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int base = Integer.parseInt(baseField.getText());
+                    int exponent = Integer.parseInt(exponentField.getText());
+                    int result = PotenciasMaximos.power(base, exponent);
+                    powerResultLabel.setText("Resultado: " + result);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Por favor, introduce un número válido", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        numericoPanel.add(new JLabel("Introduce la base:"));
+        numericoPanel.add(baseField);
+        numericoPanel.add(new JLabel("Introduce el exponente:"));
+        numericoPanel.add(exponentField);
+        numericoPanel.add(calculatePowerButton);
+        numericoPanel.add(powerResultLabel);
+
+        // Agregar campo de texto y botón para encontrar el valor máximo
+        JTextField numbersField = new JTextField(20);
+        JLabel maxResultLabel = new JLabel();
+        JButton findMaxButton = new JButton("Encontrar Máximo");
+        findMaxButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    List<Integer> numbers = Arrays.stream(numbersField.getText().split(","))
+                            .map(String::trim)
+                            .map(Integer::parseInt)
+                            .collect(Collectors.toList());
+                    int max = PotenciasMaximos.maximo(numbers);
+                    maxResultLabel.setText("Máximo: " + max);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Por favor, introduce números válidos separados por comas", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        numericoPanel.add(new JLabel("Introduce los números (separados por comas):"));
+        numericoPanel.add(numbersField);
+        numericoPanel.add(findMaxButton);
+        numericoPanel.add(maxResultLabel);
 
         mainPanel.add(startPanel, "Inicio");
         mainPanel.add(genesPanel, "Genes");

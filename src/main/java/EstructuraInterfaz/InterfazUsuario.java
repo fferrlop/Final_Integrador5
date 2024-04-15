@@ -94,9 +94,14 @@ public class InterfazUsuario {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    int start = Integer.parseInt(rangeStartField.getText());
                     int end = Integer.parseInt(rangeEndField.getText());
-                    List<Long> range = SumListNumeros.generarRango(end);
-                    rangeResultArea.setText(range.toString());
+                    if (start < 0 || end < 0) {
+                        JOptionPane.showMessageDialog(frame, "El inicio o el fin del rango no puede ser negativo", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        List<Long> range = SumListNumeros.generarRango(end);
+                        rangeResultArea.setText(range.toString());
+                    }
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(frame, "Por favor, introduce un número válido", "Error", JOptionPane.ERROR_MESSAGE);
                 }

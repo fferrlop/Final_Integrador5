@@ -12,20 +12,20 @@ public class SumListNumeros {
         }
     }
 
-    public static List<Integer> fibonacci(int n) {
-        List<Integer> sequence = new ArrayList<>();
-        sequence.add(0);
-        sequence.add(1);
+    public static List<Long> fibonacci(int n) {
+        List<Long> sequence = new ArrayList<>();
+        sequence.add(0L);
+        sequence.add(1L);
 
         for (int i = 2; i < n; i++) {
-            int nextNumber = sequence.get(i - 1) + sequence.get(i - 2);
+            long nextNumber = sequence.get(i - 1) + sequence.get(i - 2);
             sequence.add(nextNumber);
         }
 
         return sequence;
     }
 
-    public static List<Integer> generarRango(int n) {
+    public static List<Long> generarRango(int n) {
         return fibonacci(n);
     }
 }

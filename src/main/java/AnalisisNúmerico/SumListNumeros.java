@@ -18,9 +18,9 @@ public class SumListNumeros {
         }
     }
 
-    public static List<Long> fibonacci(int n) {
-        if (n < 0) {
-            JOptionPane.showMessageDialog(null, "El número no puede ser negativo", "Error", JOptionPane.ERROR_MESSAGE);
+    public static List<Long> fibonacci(int start, int end) {
+        if (start < 0 || end < 0) {
+            JOptionPane.showMessageDialog(null, "El inicio o el fin del rango no puede ser negativo", "Error", JOptionPane.ERROR_MESSAGE);
             return new ArrayList<>();
         }
 
@@ -28,15 +28,15 @@ public class SumListNumeros {
         sequence.add(0L);
         sequence.add(1L);
 
-        for (int i = 2; i < n; i++) {
+        for (int i = 2; i < end; i++) {
             long nextNumber = sequence.get(i - 1) + sequence.get(i - 2);
             sequence.add(nextNumber);
         }
 
-        return sequence;
+        return sequence.subList(start, sequence.size());
     }
 
-    public static List<Long> generarRango(int n) {
-        return fibonacci(n);
+    public static List<Long> generarRango(int start, int end) {
+        return fibonacci(start, end);
     }
 }

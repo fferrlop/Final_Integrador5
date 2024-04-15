@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import AnalisisGenómico.ConteoGenes;
 import AnalisisGenómico.CalculoCombinaciones;
@@ -82,6 +84,32 @@ public class InterfazUsuario {
         numericoPanel.add(numberField);
         numericoPanel.add(analyzeNumberButton);
         numericoPanel.add(sumResultLabel);
+
+        JTextField rangeStartField = new JTextField(20);
+        JTextField rangeEndField = new JTextField(20);
+        JTextArea rangeResultArea = new JTextArea(5, 20);
+        rangeResultArea.setEditable(false);
+        JButton generateRangeButton = new JButton("Generar Rango");
+        generateRangeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int start = Integer.parseInt(rangeStartField.getText());
+                    int end = Integer.parseInt(rangeEndField.getText());
+                    List<Integer> range = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
+                    rangeResultArea.setText(range.toString());
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Por favor, introduce un número válido", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        numericoPanel.add(new JLabel("Introduce el inicio del rango:"));
+        numericoPanel.add(rangeStartField);
+        numericoPanel.add(new JLabel("Introduce el fin del rango:"));
+        numericoPanel.add(rangeEndField);
+        numericoPanel.add(generateRangeButton);
+        numericoPanel.add(new JLabel("Números en el rango:"));
+        numericoPanel.add(rangeResultArea);
 
         mainPanel.add(startPanel, "Inicio");
         mainPanel.add(genesPanel, "Genes");

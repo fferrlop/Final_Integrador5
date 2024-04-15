@@ -8,6 +8,7 @@ import java.util.List;
 
 import AnalisisGenómico.ConteoGenes;
 import AnalisisGenómico.CalculoCombinaciones;
+import AnalisisNúmerico.SumListNumeros;
 
 public class InterfazUsuario {
     public static void main(String[] args) {
@@ -62,7 +63,25 @@ public class InterfazUsuario {
         genesPanel.add(combinationsResultLabel);
 
         JPanel numericoPanel = new JPanel();
-        numericoPanel.add(new JLabel("Análisis numérico"));
+        JTextField numberField = new JTextField(20);
+        JLabel sumResultLabel = new JLabel();
+        JButton analyzeNumberButton = new JButton("Analizar");
+        analyzeNumberButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int number = Integer.parseInt(numberField.getText());
+                    int sum = SumListNumeros.sumarNumerosNaturales(number);
+                    sumResultLabel.setText("Suma de números naturales hasta " + number + ": " + sum);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Por favor, introduce un número válido", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        numericoPanel.add(new JLabel("Introduce un número:"));
+        numericoPanel.add(numberField);
+        numericoPanel.add(analyzeNumberButton);
+        numericoPanel.add(sumResultLabel);
 
         mainPanel.add(startPanel, "Inicio");
         mainPanel.add(genesPanel, "Genes");

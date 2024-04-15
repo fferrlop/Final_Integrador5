@@ -2,8 +2,6 @@ package AnalisisNúmerico;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class SumListNumeros {
     public static int sumarNumerosNaturales(int n) {
@@ -12,14 +10,22 @@ public class SumListNumeros {
         } else {
             return n + sumarNumerosNaturales(n - 1);
         }
-
     }
 
-    public static List<Integer> generarRango(int start, int end) {
-        List<Integer> range = new ArrayList<>();
-        for (int i = start; i <= end; i++) {
-            range.add(sumarNumerosNaturales(i));
+    public static List<Integer> fibonacci(int n) {
+        List<Integer> sequence = new ArrayList<>();
+        sequence.add(0);
+        sequence.add(1);
+
+        for (int i = 2; i < n; i++) {
+            int nextNumber = sequence.get(i - 1) + sequence.get(i - 2);
+            sequence.add(nextNumber);
         }
-        return range;
+
+        return sequence;
+    }
+
+    public static List<Integer> generarRango(int n) {
+        return fibonacci(n);
     }
 }

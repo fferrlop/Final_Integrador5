@@ -94,9 +94,8 @@ public class InterfazUsuario {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int start = Integer.parseInt(rangeStartField.getText());
                     int end = Integer.parseInt(rangeEndField.getText());
-                    List<Integer> range = SumListNumeros.generarRango(start, end);
+                    List<Integer> range = SumListNumeros.generarRango(end);
                     rangeResultArea.setText(range.toString());
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(frame, "Por favor, introduce un número válido", "Error", JOptionPane.ERROR_MESSAGE);

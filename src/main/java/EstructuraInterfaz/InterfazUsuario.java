@@ -96,8 +96,21 @@ public class InterfazUsuario {
                 try {
                     int start = Integer.parseInt(rangeStartField.getText());
                     int end = Integer.parseInt(rangeEndField.getText());
-                    List<Integer> range = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
+                    List<Integer> range = SumListNumeros.generarRango(start, end);
                     rangeResultArea.setText(range.toString());
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Por favor, introduce un número válido", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        analyzeNumberButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int number = Integer.parseInt(numberField.getText());
+                    int sum = SumListNumeros.sumarNumerosNaturales(number);
+                    sumResultLabel.setText("Suma de números naturales hasta " + number + ": " + sum);
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(frame, "Por favor, introduce un número válido", "Error", JOptionPane.ERROR_MESSAGE);
                 }

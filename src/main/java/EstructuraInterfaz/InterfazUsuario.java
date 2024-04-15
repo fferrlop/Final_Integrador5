@@ -73,10 +73,14 @@ public class InterfazUsuario {
             public void actionPerformed(ActionEvent e) {
                 try {
                     int number = Integer.parseInt(numberField.getText());
+                    if (number < 0) {
+                        sumResultLabel.setText("");
+                        return;
+                    }
                     int sum = SumListNumeros.sumarNumerosNaturales(number);
                     sumResultLabel.setText("Suma de números naturales hasta " + number + ": " + sum);
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(frame, "Por favor, introduce un número válido", "Error", JOptionPane.ERROR_MESSAGE);
+                    sumResultLabel.setText("");
                 }
             }
         });
@@ -99,7 +103,7 @@ public class InterfazUsuario {
                     if (start < 0 || end < 0) {
                         JOptionPane.showMessageDialog(frame, "El inicio o el fin del rango no puede ser negativo", "Error", JOptionPane.ERROR_MESSAGE);
                     } else {
-                        List<Long> range = SumListNumeros.generarRango(end);
+                        List<Long> range = SumListNumeros.generarRango(start, end);
                         rangeResultArea.setText(range.toString());
                     }
                 } catch (NumberFormatException ex) {

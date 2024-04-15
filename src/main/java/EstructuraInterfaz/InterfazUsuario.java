@@ -16,11 +16,13 @@ public class InterfazUsuario {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Ejercicios");
         frame.setSize(800, 600);
+        frame.setLayout(new BorderLayout());
 
         CardLayout cardLayout = new CardLayout();
         JPanel mainPanel = new JPanel(cardLayout);
 
         JPanel startPanel = new JPanel();
+
         JButton buttonGenes = new JButton("Contador de Genes");
         buttonGenes.addActionListener(new ActionListener() {
             @Override
@@ -68,6 +70,7 @@ public class InterfazUsuario {
         JTextField numberField = new JTextField(20);
         JLabel sumResultLabel = new JLabel();
         JButton analyzeNumberButton = new JButton("Analizar");
+
         analyzeNumberButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -138,7 +141,17 @@ public class InterfazUsuario {
 
         cardLayout.show(mainPanel, "Inicio");
 
-        frame.getContentPane().add(mainPanel);
+        JButton backButton = new JButton("Volver");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(mainPanel, "Inicio");
+            }
+        });
+
+        frame.add(mainPanel, BorderLayout.CENTER);
+        frame.add(backButton, BorderLayout.PAGE_END);
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }

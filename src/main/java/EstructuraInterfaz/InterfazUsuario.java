@@ -583,8 +583,8 @@ public class InterfazUsuario {
         });
 
         //personalizar "Volver"
-        backButton.setText("Volver"); // Cambia texto
-        backButton.setForeground(Color.RED); // Color
+        backButton.setText("Back"); // Cambia texto
+        backButton.setForeground(Color.BLUE); // Color
         backButton.setFont(new Font("Arial", Font.BOLD, 14)); // modelo
 
         frame.add(mainPanel, BorderLayout.CENTER);

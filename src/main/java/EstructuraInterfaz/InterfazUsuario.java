@@ -20,13 +20,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.time.format.DateTimeParseException;
 
-import AnalisisGenómico.ConteoGenes;
-import AnalisisGenómico.CalculoCombinaciones;
-import AnalisisNúmerico.PotenciasMaximos;
-import AnalisisNúmerico.SumListNumeros;
-import GestiónInformaciónCientifica.BuscadorTextoBinario;
-import GestiónInformaciónCientifica.BuscadorTextoLineal;
-import GestiónInformaciónCientifica.OrganizaciónDocumentos;
+import AnalisisGenomico.ConteoGenes;
+import AnalisisGenomico.CalculoCombinaciones;
+import AnalisisNumerico.PotenciasMaximos;
+import AnalisisNumerico.SumListNumeros;
+import GestionInformacionCientifica.BuscadorTextoBinario;
+import GestionInformacionCientifica.BuscadorTextoLineal;
+import GestionInformacionCientifica.OrganizacionDocumentos;
 
 public class InterfazUsuario {
     public static void main(String[] args) {
@@ -37,18 +37,29 @@ public class InterfazUsuario {
         CardLayout cardLayout = new CardLayout();
         JPanel mainPanel = new JPanel(cardLayout);
 
+
+        //Botones que aparecerán al abrir el programa
+        JButton buttonNumerico = new JButton("Análisis Numérico");
+        EsteticaInicio.configurarBoton(buttonNumerico);
+
+        JButton buttonGenes = new JButton("Contador de Genes");
+        EsteticaInicio.configurarBoton(buttonGenes);
+
+        JButton buttonInformacionInicio = new JButton("Gestión de Información");
+        EsteticaInicio.configurarBoton(buttonInformacionInicio);
+
+        // Crear el nuevo botón "Quicksort"
+        JButton buttonQuicksort = new JButton("Quicksort");
+        EsteticaInicio.configurarBoton(buttonQuicksort);
+
         JPanel startPanel = new JPanel();
 
-//Botones que aparecerán al abrir el programa
-        JButton buttonNumerico = new JButton("Análisis Numérico");
-        JButton buttonGenes = new JButton("Contador de Genes");
-        JButton buttonInformacionInicio = new JButton("Gestión de Información");
-
-        startPanel.add(buttonGenes);
-        startPanel.add(buttonNumerico);
-        startPanel.add(buttonInformacionInicio);
+        // Llamada al método configurarPanelConBotones
+        EsteticaInicio.configurarPanelConBotones(startPanel, buttonGenes, buttonNumerico, buttonInformacionInicio, buttonQuicksort);
 
         mainPanel.add(startPanel, "Inicio");
+
+
 
         // Inicio de la sección de análisis de genes
         JPanel genesPanel = new JPanel();
@@ -193,7 +204,7 @@ public class InterfazUsuario {
                 cardLayout.show(mainPanel, "Informacion");
             }
         });
-        startPanel.add(buttonInformacionInicio);
+
 
         JPanel informacionPanel = new JPanel();
 
@@ -242,7 +253,7 @@ public class InterfazUsuario {
             public void actionPerformed(ActionEvent e) {
                 try {
                     List<String> lines = Files.readAllLines(Paths.get("src/main/java/ArchivosTexto/notas.txt"));
-                    OrganizaciónDocumentos.quickSort(lines, 0, lines.size() - 1);
+                    OrganizacionDocumentos.quickSort(lines, 0, lines.size() - 1);
                     BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/ArchivosTexto/notasOrdenadas.txt"));
                     StringBuilder sortedText = new StringBuilder();
                     for (String line : lines) {

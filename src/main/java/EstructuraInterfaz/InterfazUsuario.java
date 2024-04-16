@@ -39,25 +39,154 @@ public class InterfazUsuario {
 
         JPanel startPanel = new JPanel();
 
+//Botones que aparecerán al abrir el programa
         JButton buttonNumerico = new JButton("Análisis Numérico");
-        buttonNumerico.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainPanel, "Numerico");
-            }
-        });
-        startPanel.add(buttonNumerico);
-
         JButton buttonGenes = new JButton("Contador de Genes");
-        buttonGenes.addActionListener(new ActionListener() {
+        JButton buttonInformacionInicio = new JButton("Gestión de Información");
+
+        startPanel.add(buttonGenes);
+        startPanel.add(buttonNumerico);
+        startPanel.add(buttonInformacionInicio);
+
+        mainPanel.add(startPanel, "Inicio");
+
+        // Inicio de la sección de análisis de genes
+        JPanel genesPanel = new JPanel();
+        JTextField dnaField = new JTextField(20);
+        JLabel genesResultLabel = new JLabel();
+        JLabel combinationsResultLabel = new JLabel();
+        JButton analyzeButton = new JButton("Analizar");
+        analyzeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainPanel, "Genes");
+                try {
+                    String dna = dnaField.getText();
+                    int numGenes = ConteoGenes.contarGenes(dna);
+                    List<String> combinaciones = CalculoCombinaciones.calcularCombinaciones(dna);
+                    genesResultLabel.setText("Número de genes: " + numGenes);
+                    combinationsResultLabel.setText("Combinaciones: " + combinaciones);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
-        startPanel.add(buttonGenes);
+        genesPanel.add(new JLabel("Introduce el patrón de ADN:"));
+        genesPanel.add(dnaField);
+        genesPanel.add(analyzeButton);
+        genesPanel.add(genesResultLabel);
+        genesPanel.add(combinationsResultLabel);
 
-        JButton buttonInformacionInicio = new JButton("Gestión de Información");
+        mainPanel.add(genesPanel, "Genes");
+        // Fin de la sección de análisis de genes
+
+        // Inicio de la sección de análisis numérico
+        JPanel numericoPanel = new JPanel();
+        JTextField numberField = new JTextField(20);
+        JLabel sumResultLabel = new JLabel();
+        JButton analyzeNumberButton = new JButton("Analizar");
+        analyzeNumberButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int number = Integer.parseInt(numberField.getText());
+                    if (number < 0) {
+                        sumResultLabel.setText("");
+                        return;
+                    }
+                    int sum = SumListNumeros.sumarNumerosNaturales(number);
+                    sumResultLabel.setText("Suma de números naturales hasta " + number + ": " + sum);
+                } catch (NumberFormatException ex) {
+                    sumResultLabel.setText("");
+                }
+            }
+        });
+        numericoPanel.add(new JLabel("Introduce un número:"));
+        numericoPanel.add(numberField);
+        numericoPanel.add(analyzeNumberButton);
+        numericoPanel.add(sumResultLabel);
+
+        JTextField rangeStartField = new JTextField(20);
+        JTextField rangeEndField = new JTextField(20);
+        JTextArea rangeResultArea = new JTextArea(5, 20);
+        rangeResultArea.setEditable(false);
+        JButton generateRangeButton = new JButton("Generar Rango");
+        generateRangeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int start = Integer.parseInt(rangeStartField.getText());
+                    int end = Integer.parseInt(rangeEndField.getText());
+                    if (start < 0 || end < 0) {
+                        JOptionPane.showMessageDialog(frame, "El inicio o el fin del rango no puede ser negativo", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        List<Long> range = SumListNumeros.generarRango(start, end);
+                        rangeResultArea.setText(range.toString());
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Por favor, introduce un número válido", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        numericoPanel.add(new JLabel("Introduce el inicio del rango:"));
+        numericoPanel.add(rangeStartField);
+        numericoPanel.add(new JLabel("Introduce el fin del rango:"));
+        numericoPanel.add(rangeEndField);
+        numericoPanel.add(generateRangeButton);
+        numericoPanel.add(new JLabel("Números en el rango:"));
+        numericoPanel.add(rangeResultArea);
+
+        JTextField baseField = new JTextField(20);
+        JTextField exponentField = new JTextField(20);
+        JLabel powerResultLabel = new JLabel();
+        JButton calculatePowerButton = new JButton("Calcular Potencia");
+        calculatePowerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int base = Integer.parseInt(baseField.getText());
+                    int exponent = Integer.parseInt(exponentField.getText());
+                    int result = PotenciasMaximos.power(base, exponent);
+                    powerResultLabel.setText("Resultado: " + result);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Por favor, introduce un número válido", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        numericoPanel.add(new JLabel("Introduce la base:"));
+        numericoPanel.add(baseField);
+        numericoPanel.add(new JLabel("Introduce el exponente:"));
+        numericoPanel.add(exponentField);
+        numericoPanel.add(calculatePowerButton);
+        numericoPanel.add(powerResultLabel);
+
+        JTextField numbersField = new JTextField(20);
+        JLabel maxResultLabel = new JLabel();
+        JButton findMaxButton = new JButton("Encontrar Máximo");
+        findMaxButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    List<Integer> numbers = Arrays.stream(numbersField.getText().split(","))
+                            .map(String::trim)
+                            .map(Integer::parseInt)
+                            .collect(Collectors.toList());
+                    int max = PotenciasMaximos.maximo(numbers);
+                    maxResultLabel.setText("Máximo: " + max);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Por favor, introduce números válidos separados por comas", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        numericoPanel.add(new JLabel("Introduce los números (separados por comas):"));
+        numericoPanel.add(numbersField);
+        numericoPanel.add(findMaxButton);
+        numericoPanel.add(maxResultLabel);
+
+        mainPanel.add(numericoPanel, "Numerico");
+        // Fin de la sección de análisis numérico
+
+        // Inicio de la sección de gestión de la información
+
         buttonInformacionInicio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -198,7 +327,7 @@ public class InterfazUsuario {
             ex.printStackTrace();
         }
 
-//AQUI EMPIEza
+        //AQUI EMPIEza
         JTextField busquedaBinarioButton = new JTextField(20);
         busquedaPanel.add(new JLabel("Introduce la palabra a buscar (binario):"));
         busquedaPanel.add(busquedaBinarioButton);
@@ -361,146 +490,36 @@ public class InterfazUsuario {
             }
         }).start();
 
-//Aqui termina el 3
 
 
 
 
-        JPanel numericoPanel = new JPanel();
-        JTextField numberField = new JTextField(20);
-        JLabel sumResultLabel = new JLabel();
-        JButton analyzeNumberButton = new JButton("Analizar");
-        analyzeNumberButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    int number = Integer.parseInt(numberField.getText());
-                    if (number < 0) {
-                        sumResultLabel.setText("");
-                        return;
-                    }
-                    int sum = SumListNumeros.sumarNumerosNaturales(number);
-                    sumResultLabel.setText("Suma de números naturales hasta " + number + ": " + sum);
-                } catch (NumberFormatException ex) {
-                    sumResultLabel.setText("");
-                }
-            }
-        });
-        numericoPanel.add(new JLabel("Introduce un número:"));
-        numericoPanel.add(numberField);
-        numericoPanel.add(analyzeNumberButton);
-        numericoPanel.add(sumResultLabel);
 
-        JTextField rangeStartField = new JTextField(20);
-        JTextField rangeEndField = new JTextField(20);
-        JTextArea rangeResultArea = new JTextArea(5, 20);
-        rangeResultArea.setEditable(false);
-        JButton generateRangeButton = new JButton("Generar Rango");
-        generateRangeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    int start = Integer.parseInt(rangeStartField.getText());
-                    int end = Integer.parseInt(rangeEndField.getText());
-                    if (start < 0 || end < 0) {
-                        JOptionPane.showMessageDialog(frame, "El inicio o el fin del rango no puede ser negativo", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        List<Long> range = SumListNumeros.generarRango(start, end);
-                        rangeResultArea.setText(range.toString());
-                    }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(frame, "Por favor, introduce un número válido", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-        numericoPanel.add(new JLabel("Introduce el inicio del rango:"));
-        numericoPanel.add(rangeStartField);
-        numericoPanel.add(new JLabel("Introduce el fin del rango:"));
-        numericoPanel.add(rangeEndField);
-        numericoPanel.add(generateRangeButton);
-        numericoPanel.add(new JLabel("Números en el rango:"));
-        numericoPanel.add(rangeResultArea);
+    // Fin de la sección de gestión de la información
 
-        JTextField baseField = new JTextField(20);
-        JTextField exponentField = new JTextField(20);
-        JLabel powerResultLabel = new JLabel();
-        JButton calculatePowerButton = new JButton("Calcular Potencia");
-        calculatePowerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    int base = Integer.parseInt(baseField.getText());
-                    int exponent = Integer.parseInt(exponentField.getText());
-                    int result = PotenciasMaximos.power(base, exponent);
-                    powerResultLabel.setText("Resultado: " + result);
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(frame, "Por favor, introduce un número válido", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-        numericoPanel.add(new JLabel("Introduce la base:"));
-        numericoPanel.add(baseField);
-        numericoPanel.add(new JLabel("Introduce el exponente:"));
-        numericoPanel.add(exponentField);
-        numericoPanel.add(calculatePowerButton);
-        numericoPanel.add(powerResultLabel);
-
-        JTextField numbersField = new JTextField(20);
-        JLabel maxResultLabel = new JLabel();
-        JButton findMaxButton = new JButton("Encontrar Máximo");
-        findMaxButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    List<Integer> numbers = Arrays.stream(numbersField.getText().split(","))
-                            .map(String::trim)
-                            .map(Integer::parseInt)
-                            .collect(Collectors.toList());
-                    int max = PotenciasMaximos.maximo(numbers);
-                    maxResultLabel.setText("Máximo: " + max);
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(frame, "Por favor, introduce números válidos separados por comas", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-        numericoPanel.add(new JLabel("Introduce los números (separados por comas):"));
-        numericoPanel.add(numbersField);
-        numericoPanel.add(findMaxButton);
-        numericoPanel.add(maxResultLabel);
-
-        JPanel genesPanel = new JPanel();
-        JTextField dnaField = new JTextField(20);
-        JLabel genesResultLabel = new JLabel();
-        JLabel combinationsResultLabel = new JLabel();
-        JButton analyzeButton = new JButton("Analizar");
-        analyzeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String dna = dnaField.getText();
-                    int numGenes = ConteoGenes.contarGenes(dna);
-                    List<String> combinaciones = CalculoCombinaciones.calcularCombinaciones(dna);
-                    genesResultLabel.setText("Número de genes: " + numGenes);
-                    combinationsResultLabel.setText("Combinaciones: " + combinaciones);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-        genesPanel.add(new JLabel("Introduce el patrón de ADN:"));
-        genesPanel.add(dnaField);
-        genesPanel.add(analyzeButton);
-        genesPanel.add(genesResultLabel);
-        genesPanel.add(combinationsResultLabel);
-
-        mainPanel.add(startPanel, "Inicio");
-        mainPanel.add(numericoPanel, "Numerico");
-        mainPanel.add(genesPanel, "Genes");
         mainPanel.add(informacionPanel, "Informacion");
         mainPanel.add(organizacionPanel, "Organizacion");
         mainPanel.add(busquedaPanel, "Busqueda");
+        buttonGenes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(mainPanel, "Genes");
+            }
+        });
 
-        cardLayout.show(mainPanel, "Inicio");
+        buttonNumerico.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(mainPanel, "Numerico");
+            }
+        });
+
+        buttonInformacionInicio.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(mainPanel, "Informacion");
+            }
+        });
 
         JButton backButton = new JButton("Volver");
         backButton.addActionListener(new ActionListener() {

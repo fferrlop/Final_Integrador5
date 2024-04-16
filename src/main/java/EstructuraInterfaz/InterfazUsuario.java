@@ -156,8 +156,6 @@ public class InterfazUsuario {
         numericoPanel.add(findMaxButton);
         numericoPanel.add(maxResultLabel);
 
-//Aqui empieza Organización de Información
-
         JPanel genesPanel = new JPanel();
         JTextField dnaField = new JTextField(20);
         JLabel genesResultLabel = new JLabel();
@@ -183,94 +181,46 @@ public class InterfazUsuario {
         genesPanel.add(genesResultLabel);
         genesPanel.add(combinationsResultLabel);
 
-//Aqui empieza Organización de información
-
         JPanel informacionPanel = new JPanel();
-        JButton buttonOrganizacion = new JButton("Organización de Documentos");
-        JTextArea textArea = new JTextArea(5, 20);
-        textArea.setVisible(false);
-        JButton saveButton = new JButton("Guardar");
-        saveButton.setVisible(false);
-        JButton searchButton = new JButton("Buscar en texto");
-        saveButton.addActionListener(new ActionListener() {
+
+        buttonInformacion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/GestiónInformaciónCientifica/notas.txt"));
-                    writer.write(textArea.getText());
-                    writer.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-        JButton sortButton = new JButton("Ordenar alfabéticamente");
-        sortButton.setVisible(false);
-        JTextArea sortedTextArea = new JTextArea(5, 20);
-        sortedTextArea.setEditable(false);
-        sortedTextArea.setVisible(false);
-        sortButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    OrganizaciónDocumentos.main(new String[]{}); // Ordena las notas
-                    BufferedReader reader = new BufferedReader(new FileReader("src/main/java/GestiónInformaciónCientifica/notasOrdenadas.txt"));
-                    String line;
-                    StringBuilder sortedText = new StringBuilder();
-                    while ((line = reader.readLine()) != null) {
-                        sortedText.append(line).append("\n");
+                JButton buttonOrganizacion = new JButton("Organización de Documentos");
+                buttonOrganizacion.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Aquí puedes implementar la funcionalidad de organización de documentos
+                        // Por ejemplo, puedes abrir un nuevo cuadro de diálogo para mostrar la información organizada
+                        informacionPanel.remove(buttonOrganizacion);
+                        informacionPanel.revalidate();
+                        informacionPanel.repaint();
                     }
-                    reader.close();
-                    sortedTextArea.setText(sortedText.toString());
-                    sortedTextArea.setVisible(true);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                });
+                informacionPanel.add(buttonOrganizacion);
+
+                JButton searchButton = new JButton("Buscar en texto");
+                searchButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Aquí puedes implementar la funcionalidad de búsqueda en texto
+                        // Por ejemplo, puedes abrir un nuevo cuadro de diálogo para ingresar el texto de búsqueda
+                        informacionPanel.remove(searchButton);
+                        informacionPanel.revalidate();
+                        informacionPanel.repaint();
+                    }
+                });
+                informacionPanel.add(searchButton);
+                informacionPanel.revalidate();
+                informacionPanel.repaint();
             }
         });
-        buttonOrganizacion.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                textArea.setVisible(true);
-                saveButton.setVisible(true);
-                sortButton.setVisible(true);
-                buttonOrganizacion.setVisible(false);
-            }
-        });
-
-        searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-
-            }
-        });
-
-        informacionPanel.add(buttonOrganizacion);
-        informacionPanel.add(searchButton);
-        informacionPanel.add(buttonOrganizacion);
-        informacionPanel.add(textArea);
-        informacionPanel.add(saveButton);
-        informacionPanel.add(sortButton);
-        informacionPanel.add(sortedTextArea);
-
-        buttonOrganizacion.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                textArea.setVisible(true);
-                saveButton.setVisible(true);
-                sortButton.setVisible(true);
-                buttonOrganizacion.setVisible(false);
-                searchButton.setVisible(false);
-            }
-        });
-
-        mainPanel.add(informacionPanel, "Informacion");
+        informacionPanel.add(buttonInformacion);
 
         mainPanel.add(startPanel, "Inicio");
         mainPanel.add(numericoPanel, "Numerico");
         mainPanel.add(genesPanel, "Genes");
-
+        mainPanel.add(informacionPanel, "Informacion");
 
         cardLayout.show(mainPanel, "Inicio");
 

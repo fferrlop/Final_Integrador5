@@ -232,7 +232,9 @@ public class InterfazUsuario {
         busquedaPanel.add(busquedaBinariaButton);
         busquedaPanel.add(countBinaryLabel);
 
+
         JPanel fechasPanel = new JPanel();
+
         JButton gestionFechasButton = new JButton("Gestión de Fechas");
         gestionFechasButton.addActionListener(new ActionListener() {
             @Override
@@ -240,6 +242,29 @@ public class InterfazUsuario {
                 cardLayout.show(mainPanel, "Fechas");
             }
         });
+        informacionPanel.add(gestionFechasButton);
+
+        JTextField fechaField = new JTextField(20);
+        fechasPanel.add(new JLabel("Introduce la fecha (dd/mm/aaaa):"));
+        fechasPanel.add(fechaField);
+
+        JButton guardarFechaButton = new JButton("Guardar Fecha");
+        guardarFechaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String fecha = fechaField.getText();
+                try {
+                    FileWriter writer = new FileWriter("src/main/java/ArchivosTexto/Fechas.txt", true);
+                    BufferedWriter bufferedWriter = new BufferedWriter(writer);
+                    bufferedWriter.write(fecha);
+                    bufferedWriter.newLine();
+                    bufferedWriter.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        fechasPanel.add(guardarFechaButton);
         informacionPanel.add(gestionFechasButton);
 
         mainPanel.add(fechasPanel, "Fechas");

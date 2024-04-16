@@ -585,7 +585,7 @@ public class InterfazUsuario {
         //personalizar "Volver"
         backButton.setText("Back"); // Cambia texto
         backButton.setForeground(Color.BLUE); // Color
-        backButton.setFont(new Font("Arial", Font.BOLD, 14)); // modelo
+        backButton.setFont(new Font("Arial", Font.BOLD, 18)); // modelo
 
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.add(backButton, BorderLayout.PAGE_END);

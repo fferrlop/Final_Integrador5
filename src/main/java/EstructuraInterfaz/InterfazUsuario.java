@@ -187,10 +187,13 @@ public class InterfazUsuario {
             @Override
             public void actionPerformed(ActionEvent e) {
                 textArea.setVisible(true);
+                buttonOrganizacion.setVisible(false);
             }
         });
         informacionPanel.add(buttonOrganizacion);
         informacionPanel.add(textArea);
+
+        mainPanel.add(informacionPanel, "Informacion");
 
         mainPanel.add(informacionPanel, "Informacion");
 

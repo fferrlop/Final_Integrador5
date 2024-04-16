@@ -298,6 +298,28 @@ public class InterfazUsuario {
             }
         }).start();
 
+        JTextField fechaBorrarField = new JTextField(20);
+        fechasPanel.add(new JLabel("Introduce la fecha a borrar (dd/mm/aaaa):"));
+        fechasPanel.add(fechaBorrarField);
+
+        JButton borrarFechaButton = new JButton("Borrar Fecha");
+        borrarFechaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String fechaBorrar = fechaBorrarField.getText();
+                try {
+                    List<String> fechas = Files.readAllLines(Paths.get("src/main/java/ArchivosTexto/Fechas.txt"));
+                    fechas = fechas.stream()
+                            .filter(fecha -> !fecha.equals(fechaBorrar))
+                            .collect(Collectors.toList());
+                    Files.write(Paths.get("src/main/java/ArchivosTexto/Fechas.txt"), fechas);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        fechasPanel.add(borrarFechaButton);
+
         JButton ordenarFechasButton = new JButton("Ordenar Fechas");
         ordenarFechasButton.addActionListener(new ActionListener() {
             @Override

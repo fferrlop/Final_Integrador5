@@ -14,6 +14,7 @@ import AnalisisGenómico.ConteoGenes;
 import AnalisisGenómico.CalculoCombinaciones;
 import AnalisisNúmerico.PotenciasMaximos;
 import AnalisisNúmerico.SumListNumeros;
+import GestiónInformaciónCientifica.OrganizaciónDocumentos;
 
 public class InterfazUsuario {
     public static void main(String[] args) {
@@ -182,6 +183,8 @@ public class InterfazUsuario {
         genesPanel.add(genesResultLabel);
         genesPanel.add(combinationsResultLabel);
 
+//Aqui empieza Organización de información
+
         JPanel informacionPanel = new JPanel();
         JButton buttonOrganizacion = new JButton("Organización de Documentos");
         JTextArea textArea = new JTextArea(5, 20);
@@ -200,19 +203,8 @@ public class InterfazUsuario {
                 }
             }
         });
-        buttonOrganizacion.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                textArea.setVisible(true);
-                saveButton.setVisible(true);
-                buttonOrganizacion.setVisible(false);
-            }
-        });
-        informacionPanel.add(buttonOrganizacion);
-        informacionPanel.add(textArea);
-        informacionPanel.add(saveButton);
-
         JButton sortButton = new JButton("Ordenar alfabéticamente");
+        sortButton.setVisible(false);
         JTextArea sortedTextArea = new JTextArea(5, 20);
         sortedTextArea.setEditable(false);
         sortedTextArea.setVisible(false);
@@ -220,6 +212,7 @@ public class InterfazUsuario {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    OrganizaciónDocumentos.main(new String[]{}); // Ordena las notas
                     BufferedReader reader = new BufferedReader(new FileReader("src/main/java/GestiónInformaciónCientifica/notasOrdenadas.txt"));
                     String line;
                     StringBuilder sortedText = new StringBuilder();
@@ -234,6 +227,18 @@ public class InterfazUsuario {
                 }
             }
         });
+        buttonOrganizacion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                textArea.setVisible(true);
+                saveButton.setVisible(true);
+                sortButton.setVisible(true);
+                buttonOrganizacion.setVisible(false);
+            }
+        });
+        informacionPanel.add(buttonOrganizacion);
+        informacionPanel.add(textArea);
+        informacionPanel.add(saveButton);
         informacionPanel.add(sortButton);
         informacionPanel.add(sortedTextArea);
 

@@ -1,5 +1,6 @@
 package EstructuraInterfaz;
 
+import java.awt.Color;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
@@ -56,6 +57,9 @@ public class InterfazUsuario {
         buttonPanel.setOpaque(false);
         buttonPanel.setOpaque(true);
         buttonPanel.setBackground(new Color(0,0,0,0)); // Color transparente
+
+
+
 
 
         //Botones que aparecerán al abrir el programa
@@ -658,5 +662,17 @@ public class InterfazUsuario {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+
+
+        Color customColor = new Color(55, 68, 78);
+
+        mainPanel.setBackground(customColor);
+        informacionPanel.setBackground(customColor);
+        organizacionPanel.setBackground(customColor);
+        busquedaPanel.setBackground(customColor);
+        fechasPanel.setBackground(customColor);
+        genesPanel.setBackground(customColor);
+        numericoPanel.setBackground(customColor);
+
     }
 }

@@ -86,7 +86,7 @@ public class InterfazUsuario {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    FileWriter writer = new FileWriter("src/main/java/GestiónInformaciónCientifica/notas.txt");
+                    FileWriter writer = new FileWriter("src/main/java/ArchivosTexto/notas.txt");
                     writer.write(textArea.getText());
                     writer.close();
                 } catch (IOException ex) {
@@ -103,9 +103,9 @@ public class InterfazUsuario {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    List<String> lines = Files.readAllLines(Paths.get("src/main/java/GestiónInformaciónCientifica/notas.txt"));
+                    List<String> lines = Files.readAllLines(Paths.get("src/main/java/ArchivosTexto/notas.txt"));
                     OrganizaciónDocumentos.quickSort(lines, 0, lines.size() - 1);
-                    BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/GestiónInformaciónCientifica/notasOrdenadas.txt"));
+                    BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/ArchivosTexto/notasOrdenadas.txt"));
                     StringBuilder sortedText = new StringBuilder();
                     for (String line : lines) {
                         writer.write(line);

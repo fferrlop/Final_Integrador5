@@ -95,6 +95,9 @@ public class InterfazUsuario {
             }
         });
 
+        JTextArea sortedTextArea = new JTextArea(10, 30);
+        sortedTextArea.setEditable(false);
+        organizacionPanel.add(new JScrollPane(sortedTextArea));
         JButton sortButton = new JButton("Ordenar alfabéticamente");
         sortButton.addActionListener(new ActionListener() {
             @Override
@@ -103,16 +106,22 @@ public class InterfazUsuario {
                     List<String> lines = Files.readAllLines(Paths.get("src/main/java/GestiónInformaciónCientifica/notas.txt"));
                     OrganizaciónDocumentos.quickSort(lines, 0, lines.size() - 1);
                     BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/GestiónInformaciónCientifica/notasOrdenadas.txt"));
+                    StringBuilder sortedText = new StringBuilder();
                     for (String line : lines) {
                         writer.write(line);
                         writer.newLine();
+                        sortedText.append(line).append("\n");
                     }
                     writer.close();
+                    sortedTextArea.setText(sortedText.toString());
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             }
         });
+
+        organizacionPanel.add(saveButton);
+        organizacionPanel.add(sortButton);
 
         organizacionPanel.add(saveButton);
         organizacionPanel.add(sortButton);

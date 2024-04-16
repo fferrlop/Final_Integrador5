@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -154,6 +157,8 @@ public class InterfazUsuario {
         numericoPanel.add(findMaxButton);
         numericoPanel.add(maxResultLabel);
 
+//Aqui empieza Organización de Información
+
         JPanel genesPanel = new JPanel();
         JTextField dnaField = new JTextField(20);
         JLabel genesResultLabel = new JLabel();
@@ -183,19 +188,31 @@ public class InterfazUsuario {
         JButton buttonOrganizacion = new JButton("Organización de Documentos");
         JTextArea textArea = new JTextArea(5, 20);
         textArea.setVisible(false);
+        JButton saveButton = new JButton("Guardar");
+        saveButton.setVisible(false);
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/GestiónInformaciónCientifica/notas.txt"));
+                    writer.write(textArea.getText());
+                    writer.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
         buttonOrganizacion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 textArea.setVisible(true);
+                saveButton.setVisible(true);
                 buttonOrganizacion.setVisible(false);
             }
         });
         informacionPanel.add(buttonOrganizacion);
         informacionPanel.add(textArea);
-
-        mainPanel.add(informacionPanel, "Informacion");
-
-        mainPanel.add(informacionPanel, "Informacion");
+        informacionPanel.add(saveButton);
 
         mainPanel.add(informacionPanel, "Informacion");
 

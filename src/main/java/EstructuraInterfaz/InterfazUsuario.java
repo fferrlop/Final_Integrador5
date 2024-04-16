@@ -1,6 +1,9 @@
 package EstructuraInterfaz;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +20,7 @@ import AnalisisGenómico.ConteoGenes;
 import AnalisisGenómico.CalculoCombinaciones;
 import AnalisisNúmerico.PotenciasMaximos;
 import AnalisisNúmerico.SumListNumeros;
+import GestiónInformaciónCientifica.BuscadorTextoLineal;
 import GestiónInformaciónCientifica.OrganizaciónDocumentos;
 
 public class InterfazUsuario {
@@ -128,6 +132,33 @@ public class InterfazUsuario {
         JTextArea busquedaTextArea = new JTextArea(20, 18);
         busquedaTextArea.setEditable(false);
         busquedaPanel.add(new JScrollPane(busquedaTextArea));
+
+        JTextField searchField = new JTextField(20);
+        busquedaPanel.add(new JLabel("Introduce la palabra a buscar:"));
+        busquedaPanel.add(searchField);
+
+        JButton busquedaButton = new JButton("Buscar");
+        busquedaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String word = searchField.getText();
+                String text = busquedaTextArea.getText();
+                List<Integer> indices = BuscadorTextoLineal.buscar(text, word);
+
+                Highlighter highlighter = busquedaTextArea.getHighlighter();
+                Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.GREEN);
+                highlighter.removeAllHighlights();
+
+                for (int index : indices) {
+                    try {
+                        highlighter.addHighlight(index, index + word.length(), painter);
+                    } catch (BadLocationException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+        busquedaPanel.add(busquedaButton);
 
         try {
             List<String> lines = Files.readAllLines(Paths.get("src/main/java/ArchivosTexto/Texto.txt"));

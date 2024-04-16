@@ -12,7 +12,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -268,6 +271,64 @@ public class InterfazUsuario {
         informacionPanel.add(gestionFechasButton);
 
         mainPanel.add(fechasPanel, "Fechas");
+
+        JTextArea fechasArea = new JTextArea(10, 30);
+        fechasArea.setEditable(false);
+        fechasPanel.add(new JScrollPane(fechasArea));
+
+        int delay = 1000; //milisegundos
+        new Timer(delay, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    List<String> fechas = Files.readAllLines(Paths.get("src/main/java/ArchivosTexto/Fechas.txt"));
+                    String fechasStr = String.join("\n", fechas);
+                    fechasArea.setText(fechasStr);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
+
+        JButton ordenarFechasButton = new JButton("Ordenar Fechas");
+        ordenarFechasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    List<String> fechas = Files.readAllLines(Paths.get("src/main/java/ArchivosTexto/Fechas.txt"));
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    List<LocalDate> fechasOrdenadas = fechas.stream()
+                            .map(fecha -> LocalDate.parse(fecha, formatter))
+                            .sorted(Comparator.reverseOrder())
+                            .collect(Collectors.toList());
+                    List<String> fechasOrdenadasStr = fechasOrdenadas.stream()
+                            .map(fecha -> fecha.format(formatter))
+                            .collect(Collectors.toList());
+                    Files.write(Paths.get("src/main/java/ArchivosTexto/FechasOrdenadas.txt"), fechasOrdenadasStr);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        fechasPanel.add(ordenarFechasButton);
+
+        JTextArea fechasOrdenadasArea = new JTextArea(10, 30);
+        fechasOrdenadasArea.setEditable(false);
+        fechasPanel.add(new JScrollPane(fechasOrdenadasArea));
+
+        int delay2 = 1000; //milliseconds
+        new Timer(delay, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    List<String> fechasOrdenadas = Files.readAllLines(Paths.get("src/main/java/ArchivosTexto/FechasOrdenadas.txt"));
+                    String fechasOrdenadasStr = String.join("\n", fechasOrdenadas);
+                    fechasOrdenadasArea.setText(fechasOrdenadasStr);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
 
 //Aqui termina el 3
 

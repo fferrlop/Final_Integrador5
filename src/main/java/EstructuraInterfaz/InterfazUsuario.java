@@ -704,7 +704,7 @@ public class InterfazUsuario {
         });
 
         //personalizar "Volver"
-        backButton.setText("Back"); // Cambia texto
+        backButton.setText("Back");
         backButton.setForeground(Color.BLUE); // Color
         backButton.setFont(new Font("Arial", Font.BOLD, 18)); // modelo
 

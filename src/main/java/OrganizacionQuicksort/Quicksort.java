@@ -2,10 +2,10 @@ package OrganizacionQuicksort;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import static OrganizacionQuicksort.Utiles.less;
 import static OrganizacionQuicksort.Utiles.swap;
 import java.util.Arrays;
-
 
 public class Quicksort {
     private List<String> steps = new ArrayList<>();
@@ -14,18 +14,25 @@ public class Quicksort {
         return steps;
     }
 
-    public <T extends Comparable<T>> T[] sort(T[] array) {
+    public <T extends Comparable<T>> T[] sort(T[] array, Consumer<List<Barras>> stepCallback) {
         steps.add(Arrays.toString(array));
-        doSort(array, 0, array.length - 1);
+        doSort(array, 0, array.length - 1, stepCallback);
         return array;
     }
 
-    private <T extends Comparable<T>> void doSort(T[] array, int left, int right) {
+    private <T extends Comparable<T>> void doSort(T[] array, int left, int right, Consumer<List<Barras>> stepCallback) {
         if (left < right) {
             int pivot = randomPartition(array, left, right);
             steps.add(Arrays.toString(array));
-            doSort(array, left, pivot - 1);
-            doSort(array, pivot, right);
+
+            List<Barras> bars = new ArrayList<>();
+            for (T value : array) {
+                bars.add(new Barras((Integer) value, ((Integer) value) * 10));
+            }
+            stepCallback.accept(bars);
+
+            doSort(array, left, pivot - 1, stepCallback);
+            doSort(array, pivot, right, stepCallback);
         }
     }
 

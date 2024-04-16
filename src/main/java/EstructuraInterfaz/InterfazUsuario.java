@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -25,6 +26,9 @@ import java.awt.event.ComponentEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 import AnalisisGenomico.ConteoGenes;
@@ -34,6 +38,8 @@ import AnalisisNumerico.SumListNumeros;
 import GestionInformacionCientifica.BuscadorTextoBinario;
 import GestionInformacionCientifica.BuscadorTextoLineal;
 import GestionInformacionCientifica.OrganizacionDocumentos;
+import OrganizacionQuicksort.Barras;
+import OrganizacionQuicksort.GraficoBarras;
 import OrganizacionQuicksort.Quicksort;
 
 public class InterfazUsuario {
@@ -558,6 +564,12 @@ public class InterfazUsuario {
     // Algoritmo de quicksort
 
 
+
+        GraficoBarras barrasChart = new GraficoBarras(null);
+        frame.add(barrasChart, BorderLayout.CENTER);
+
+        // 10, 20, 10, 4, 20, 1, 9, 2, 1, 3, 7, 17, 6, 15, 3
+
         buttonQuicksort.addActionListener(e -> {
             String input = JOptionPane.showInputDialog("Introduce los números que quieres ordenar, separados por comas");
             String[] numberStrings = input.split(",");
@@ -570,12 +582,35 @@ public class InterfazUsuario {
                     return;
                 }
             }
+
             Quicksort quicksort = new Quicksort();
-            Integer[] sortedData = quicksort.sort(data);
-            List<String> steps = quicksort.getSteps();
-            String stepsString = String.join("\n", steps);
-            JOptionPane.showMessageDialog(frame, "Datos ordenados: " + Arrays.toString(sortedData) + "\nPasos:\n" + stepsString);
+            JFrame barFrame = new JFrame("Gráfico de barras");
+            barFrame.setSize(800, 600);
+            GraficoBarras barChart = new GraficoBarras(null);
+            barFrame.add(barChart);
+            barFrame.setVisible(true);
+
+            List<List<Barras>> steps = new ArrayList<>();
+            quicksort.sort(data, bars -> {
+                steps.add(new ArrayList<>(bars));
+            });
+
+            new Thread(() -> {
+                for (List<Barras> step : steps) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                    SwingUtilities.invokeLater(() -> {
+                        barChart.setBars(step);
+                        barChart.repaint();
+                        barFrame.revalidate();
+                    });
+                }
+            }).start();
         });
+
 
 
 

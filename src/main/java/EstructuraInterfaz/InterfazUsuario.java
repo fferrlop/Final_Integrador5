@@ -25,6 +25,14 @@ public class InterfazUsuario {
 
         JPanel startPanel = new JPanel();
 
+        JButton buttonNumerico = new JButton("Análisis Numérico");
+        buttonNumerico.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(mainPanel, "Numerico");
+            }
+        });
+        startPanel.add(buttonNumerico);
 
         JButton buttonGenes = new JButton("Contador de Genes");
         buttonGenes.addActionListener(new ActionListener() {
@@ -35,45 +43,19 @@ public class InterfazUsuario {
         });
         startPanel.add(buttonGenes);
 
-        JButton buttonNumerico = new JButton("Análisis Numérico");
-        buttonNumerico.addActionListener(new ActionListener() {
+        JButton buttonInformacion = new JButton("Gestión de Información");
+        buttonInformacion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainPanel, "Numerico");
+                cardLayout.show(mainPanel, "Informacion");
             }
         });
-        startPanel.add(buttonNumerico);
-
-        JPanel genesPanel = new JPanel();
-        JTextField dnaField = new JTextField(20);
-        JLabel genesResultLabel = new JLabel();
-        JLabel combinationsResultLabel = new JLabel();
-        JButton analyzeButton = new JButton("Analizar");
-        analyzeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String dna = dnaField.getText();
-                    int numGenes = ConteoGenes.contarGenes(dna);
-                    List<String> combinaciones = CalculoCombinaciones.calcularCombinaciones(dna);
-                    genesResultLabel.setText("Número de genes: " + numGenes);
-                    combinationsResultLabel.setText("Combinaciones: " + combinaciones);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-        genesPanel.add(new JLabel("Introduce el patrón de ADN:"));
-        genesPanel.add(dnaField);
-        genesPanel.add(analyzeButton);
-        genesPanel.add(genesResultLabel);
-        genesPanel.add(combinationsResultLabel);
+        startPanel.add(buttonInformacion);
 
         JPanel numericoPanel = new JPanel();
         JTextField numberField = new JTextField(20);
         JLabel sumResultLabel = new JLabel();
         JButton analyzeNumberButton = new JButton("Analizar");
-
         analyzeNumberButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -117,19 +99,6 @@ public class InterfazUsuario {
                 }
             }
         });
-
-        analyzeNumberButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    int number = Integer.parseInt(numberField.getText());
-                    int sum = SumListNumeros.sumarNumerosNaturales(number);
-                    sumResultLabel.setText("Suma de números naturales hasta " + number + ": " + sum);
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(frame, "Por favor, introduce un número válido", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
         numericoPanel.add(new JLabel("Introduce el inicio del rango:"));
         numericoPanel.add(rangeStartField);
         numericoPanel.add(new JLabel("Introduce el fin del rango:"));
@@ -162,7 +131,6 @@ public class InterfazUsuario {
         numericoPanel.add(calculatePowerButton);
         numericoPanel.add(powerResultLabel);
 
-        // Agregar campo de texto y botón para encontrar el valor máximo
         JTextField numbersField = new JTextField(20);
         JLabel maxResultLabel = new JLabel();
         JButton findMaxButton = new JButton("Encontrar Máximo");
@@ -186,9 +154,35 @@ public class InterfazUsuario {
         numericoPanel.add(findMaxButton);
         numericoPanel.add(maxResultLabel);
 
+        JPanel genesPanel = new JPanel();
+        JTextField dnaField = new JTextField(20);
+        JLabel genesResultLabel = new JLabel();
+        JLabel combinationsResultLabel = new JLabel();
+        JButton analyzeButton = new JButton("Analizar");
+        analyzeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String dna = dnaField.getText();
+                    int numGenes = ConteoGenes.contarGenes(dna);
+                    List<String> combinaciones = CalculoCombinaciones.calcularCombinaciones(dna);
+                    genesResultLabel.setText("Número de genes: " + numGenes);
+                    combinationsResultLabel.setText("Combinaciones: " + combinaciones);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(frame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        genesPanel.add(new JLabel("Introduce el patrón de ADN:"));
+        genesPanel.add(dnaField);
+        genesPanel.add(analyzeButton);
+        genesPanel.add(genesResultLabel);
+        genesPanel.add(combinationsResultLabel);
+
         mainPanel.add(startPanel, "Inicio");
-        mainPanel.add(genesPanel, "Genes");
         mainPanel.add(numericoPanel, "Numerico");
+        mainPanel.add(genesPanel, "Genes");
+
 
         cardLayout.show(mainPanel, "Inicio");
 

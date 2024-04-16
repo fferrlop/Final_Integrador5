@@ -154,6 +154,7 @@ public class InterfazUsuario {
         // Fin de la sección de análisis de genes
 
         // Inicio de la sección de análisis numérico
+
         JPanel numericoPanel = new JPanel();
         JTextField numberField = new JTextField(20);
         JLabel sumResultLabel = new JLabel();
@@ -279,6 +280,9 @@ public class InterfazUsuario {
         numericoPanel.add(maxResultLabel);
 
         mainPanel.add(numericoPanel, "Numerico");
+
+
+
         // Fin de la sección de análisis numérico
 
         // Inicio de la sección de gestión de la información

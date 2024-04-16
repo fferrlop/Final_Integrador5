@@ -179,6 +179,23 @@ public class InterfazUsuario {
         genesPanel.add(genesResultLabel);
         genesPanel.add(combinationsResultLabel);
 
+        JPanel informacionPanel = new JPanel();
+        JButton buttonOrganizacion = new JButton("Organización de Documentos");
+        JTextArea textArea = new JTextArea(5, 20);
+        textArea.setVisible(false);
+        buttonOrganizacion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                textArea.setVisible(true);
+            }
+        });
+        informacionPanel.add(buttonOrganizacion);
+        informacionPanel.add(textArea);
+
+        mainPanel.add(informacionPanel, "Informacion");
+
+        mainPanel.add(informacionPanel, "Informacion");
+
         mainPanel.add(startPanel, "Inicio");
         mainPanel.add(numericoPanel, "Numerico");
         mainPanel.add(genesPanel, "Genes");

@@ -20,6 +20,7 @@ import AnalisisGenómico.ConteoGenes;
 import AnalisisGenómico.CalculoCombinaciones;
 import AnalisisNúmerico.PotenciasMaximos;
 import AnalisisNúmerico.SumListNumeros;
+import GestiónInformaciónCientifica.BuscadorTextoBinario;
 import GestiónInformaciónCientifica.BuscadorTextoLineal;
 import GestiónInformaciónCientifica.OrganizaciónDocumentos;
 
@@ -129,9 +130,14 @@ public class InterfazUsuario {
 
 
         JPanel busquedaPanel = new JPanel();
-        JTextArea busquedaTextArea = new JTextArea(20, 18);
-        busquedaTextArea.setEditable(false);
-        busquedaPanel.add(new JScrollPane(busquedaTextArea));
+
+        JTextArea busquedaTextArea1 = new JTextArea(20, 18);
+        busquedaTextArea1.setEditable(false);
+        busquedaPanel.add(new JScrollPane(busquedaTextArea1));
+
+        JTextArea busquedaTextArea2 = new JTextArea(20, 18);
+        busquedaTextArea2.setEditable(false);
+        busquedaPanel.add(new JScrollPane(busquedaTextArea2));
 
         JTextField searchField = new JTextField(20);
         busquedaPanel.add(new JLabel("Introduce la palabra a buscar:"));
@@ -140,17 +146,17 @@ public class InterfazUsuario {
         JLabel countLabel = new JLabel();
         busquedaPanel.add(countLabel);
 
-        JButton busquedaButton = new JButton("Buscar");
-        busquedaButton.addActionListener(new ActionListener() {
+        JButton busquedaLinearButton = new JButton("Buscar");
+        busquedaLinearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String word = searchField.getText();
-                String text = busquedaTextArea.getText();
+                String text = busquedaTextArea1.getText();
 
                 List<Integer> indices = BuscadorTextoLineal.buscar(text, word);
                 countLabel.setText("La palabra '" + word + "' se repite " + indices.size() + " veces.");
 
-                Highlighter highlighter = busquedaTextArea.getHighlighter();
+                Highlighter highlighter = busquedaTextArea1.getHighlighter();
                 Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.GREEN);
                 highlighter.removeAllHighlights();
 
@@ -165,20 +171,62 @@ public class InterfazUsuario {
                 }
             }
         });
-        busquedaPanel.add(busquedaButton);
-
+        busquedaPanel.add(busquedaLinearButton);
 
 
         try {
-            List<String> lines = Files.readAllLines(Paths.get("src/main/java/ArchivosTexto/Texto.txt"));
-            StringBuilder text = new StringBuilder();
-            for (String line : lines) {
-                text.append(line).append("\n");
+            List<String> lines1 = Files.readAllLines(Paths.get("src/main/java/ArchivosTexto/Texto.txt"));
+            StringBuilder text1 = new StringBuilder();
+            for (String line : lines1) {
+                text1.append(line).append("\n");
             }
-            busquedaTextArea.setText(text.toString());
+            busquedaTextArea1.setText(text1.toString());
+
+            List<String> lines2 = Files.readAllLines(Paths.get("src/main/java/ArchivosTexto/texto2.txt"));
+            StringBuilder text2 = new StringBuilder();
+            for (String line : lines2) {
+                text2.append(line).append("\n");
+            }
+            busquedaTextArea2.setText(text2.toString());
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+
+//AQUI EMPIEZA
+        // Remove the second declaration of busquedaButton
+        JTextField busquedaBinarioButton = new JTextField(20);
+        busquedaPanel.add(new JLabel("Introduce la palabra a buscar (binario):"));
+        busquedaPanel.add(busquedaBinarioButton);
+
+        JButton busquedaBinariaButton = new JButton("Buscar (binario)");
+        busquedaBinariaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String word = busquedaBinarioButton.getText();
+                String text = busquedaTextArea2.getText(); // Cambiado a busquedaTextArea2
+
+                int index = BuscadorTextoBinario.buscar(text, word);
+                if (index != -1) {
+                    countLabel.setText("La palabra '" + word + "' se encontró en el índice " + index + ".");
+                } else {
+                    countLabel.setText("La palabra '" + word + "' no se encontró.");
+                }
+
+                Highlighter highlighter = busquedaTextArea2.getHighlighter(); // Cambiado a busquedaTextArea2
+                Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.GREEN);
+                highlighter.removeAllHighlights();
+
+                if (index != -1) {
+                    try {
+                        highlighter.addHighlight(index, index + word.length(), painter);
+                    } catch (BadLocationException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+        busquedaPanel.add(busquedaBinariaButton);
+
 
         JPanel numericoPanel = new JPanel();
         JTextField numberField = new JTextField(20);

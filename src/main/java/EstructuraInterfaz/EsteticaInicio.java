@@ -11,10 +11,10 @@ public class EsteticaInicio {
 
         //fuente y color
         boton.setFont(new Font("Arial", Font.BOLD, 14));
-        boton.setForeground(Color.WHITE);
+        boton.setForeground(Color.LIGHT_GRAY);
 
         //Fondo color
-        boton.setBackground(Color.BLUE);
+        boton.setBackground(Color.DARK_GRAY);
 
         //posición
         boton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -25,7 +25,7 @@ public class EsteticaInicio {
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
         // mover botones hacia abajo
-        panel.add(Box.createRigidArea(new Dimension(0, 250)));
+        panel.add(Box.createRigidArea(new Dimension(0, 280)));
 
         // botones en el panel
         for (JButton boton : botones) {

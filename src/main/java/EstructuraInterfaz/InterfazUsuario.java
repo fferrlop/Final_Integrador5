@@ -7,6 +7,7 @@ import javax.swing.text.Highlighter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,6 +20,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.time.format.DateTimeParseException;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import AnalisisGenomico.ConteoGenes;
 import AnalisisGenomico.CalculoCombinaciones;
@@ -37,6 +40,12 @@ public class InterfazUsuario {
         CardLayout cardLayout = new CardLayout();
         JPanel mainPanel = new JPanel(cardLayout);
 
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
+        buttonPanel.setOpaque(false);
+        buttonPanel.setOpaque(true);
+        buttonPanel.setBackground(new Color(0,0,0,0)); // Color transparente
+
 
         //Botones que aparecerán al abrir el programa
         JButton buttonNumerico = new JButton("Análisis Numérico");
@@ -48,14 +57,47 @@ public class InterfazUsuario {
         JButton buttonInformacionInicio = new JButton("Gestión de Información");
         EsteticaInicio.configurarBoton(buttonInformacionInicio);
 
-        // Crear el nuevo botón "Quicksort"
         JButton buttonQuicksort = new JButton("Quicksort");
         EsteticaInicio.configurarBoton(buttonQuicksort);
 
-        JPanel startPanel = new JPanel();
+        // Crear un JLayeredPane para superponer los componentes
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setLayout(new BorderLayout());
+        layeredPane.setPreferredSize(new Dimension(800, 600)); // Ajustar al tamaño deseado
 
-        // Llamada al método configurarPanelConBotones
-        EsteticaInicio.configurarPanelConBotones(startPanel, buttonGenes, buttonNumerico, buttonInformacionInicio, buttonQuicksort);
+// Crear el JLabel para la imagen de fondo
+        JLabel background = new JLabel(new ImageIcon("src/main/resources/Fondo.png"));
+        background.setSize(background.getPreferredSize()); // Ajustar al tamaño de la imagen
+
+// Crear el JPanel para los botones
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
+        buttonPanel.setOpaque(false); // Hacerlo transparente para que se vea la imagen de fondo
+        buttonPanel.setSize(buttonPanel.getPreferredSize()); // Ajustar al tamaño necesario
+
+// Añadir los botones al panel
+        EsteticaInicio.configurarPanelConBotones(buttonPanel, buttonGenes, buttonNumerico, buttonInformacionInicio, buttonQuicksort);
+
+// Añadir la imagen de fondo y el panel de botones al JLayeredPane
+        layeredPane.add(background, BorderLayout.CENTER); // La imagen de fondo ocupa todo el espacio disponible
+        layeredPane.setLayer(background, 1); // La imagen de fondo está en la capa 1 (detrás)
+        layeredPane.add(buttonPanel, BorderLayout.CENTER); // Los botones se superponen a la imagen de fondo
+        layeredPane.setLayer(buttonPanel, 2); // El panel de botones está en la capa 2 (delante)
+
+        layeredPane.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                // Ajustar el tamaño del JLabel para que coincida con el tamaño del JLayeredPane
+                Image originalImage = new ImageIcon("src/main/resources/Fondo.png").getImage();
+                Image scaledImage = originalImage.getScaledInstance(layeredPane.getWidth(), layeredPane.getHeight(), Image.SCALE_SMOOTH);
+                background.setIcon(new ImageIcon(scaledImage));
+                background.setSize(layeredPane.getSize());
+            }
+        });
+
+        JPanel startPanel = new JPanel();
+        startPanel.setLayout(new BorderLayout());
+// Añadir el JLayeredPane al panel principal
+        startPanel.add(layeredPane);
 
         mainPanel.add(startPanel, "Inicio");
 

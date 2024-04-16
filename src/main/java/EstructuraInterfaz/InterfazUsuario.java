@@ -22,6 +22,10 @@ import java.util.stream.Collectors;
 import java.time.format.DateTimeParseException;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 
 import AnalisisGenomico.ConteoGenes;
 import AnalisisGenomico.CalculoCombinaciones;
@@ -30,6 +34,7 @@ import AnalisisNumerico.SumListNumeros;
 import GestionInformacionCientifica.BuscadorTextoBinario;
 import GestionInformacionCientifica.BuscadorTextoLineal;
 import GestionInformacionCientifica.OrganizacionDocumentos;
+import OrganizacionQuicksort.Quicksort;
 
 public class InterfazUsuario {
     public static void main(String[] args) {
@@ -549,6 +554,32 @@ public class InterfazUsuario {
 
 
     // Fin de la sección de gestión de la información
+
+    // Algoritmo de quicksort
+
+
+        buttonQuicksort.addActionListener(e -> {
+            String input = JOptionPane.showInputDialog("Introduce los números que quieres ordenar, separados por comas");
+            String[] numberStrings = input.split(",");
+            Integer[] data = new Integer[numberStrings.length];
+            for (int i = 0; i < numberStrings.length; i++) {
+                try {
+                    data[i] = Integer.parseInt(numberStrings[i].trim());
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Por favor, introduce solo números separados por comas", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+            Quicksort quicksort = new Quicksort();
+            Integer[] sortedData = quicksort.sort(data);
+            List<String> steps = quicksort.getSteps();
+            String stepsString = String.join("\n", steps);
+            JOptionPane.showMessageDialog(frame, "Datos ordenados: " + Arrays.toString(sortedData) + "\nPasos:\n" + stepsString);
+        });
+
+
+
+    //Fin de quicksort
 
         mainPanel.add(informacionPanel, "Informacion");
         mainPanel.add(organizacionPanel, "Organizacion");

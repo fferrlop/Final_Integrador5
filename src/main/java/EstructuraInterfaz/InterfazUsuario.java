@@ -137,21 +137,28 @@ public class InterfazUsuario {
         busquedaPanel.add(new JLabel("Introduce la palabra a buscar:"));
         busquedaPanel.add(searchField);
 
+        JLabel countLabel = new JLabel();
+        busquedaPanel.add(countLabel);
+
         JButton busquedaButton = new JButton("Buscar");
         busquedaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String word = searchField.getText();
                 String text = busquedaTextArea.getText();
+
                 List<Integer> indices = BuscadorTextoLineal.buscar(text, word);
+                countLabel.setText("La palabra '" + word + "' se repite " + indices.size() + " veces.");
 
                 Highlighter highlighter = busquedaTextArea.getHighlighter();
                 Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.GREEN);
                 highlighter.removeAllHighlights();
 
-                for (int index : indices) {
+                int index = 0;
+                while ((index = text.indexOf(word, index)) != -1) {
                     try {
                         highlighter.addHighlight(index, index + word.length(), painter);
+                        index += word.length();
                     } catch (BadLocationException ex) {
                         ex.printStackTrace();
                     }
@@ -159,6 +166,8 @@ public class InterfazUsuario {
             }
         });
         busquedaPanel.add(busquedaButton);
+
+
 
         try {
             List<String> lines = Files.readAllLines(Paths.get("src/main/java/ArchivosTexto/Texto.txt"));

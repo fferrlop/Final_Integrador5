@@ -143,8 +143,10 @@ public class InterfazUsuario {
         busquedaPanel.add(new JLabel("Introduce la palabra a buscar:"));
         busquedaPanel.add(searchField);
 
-        JLabel countLabel = new JLabel();
-        busquedaPanel.add(countLabel);
+        JLabel countLinearLabel = new JLabel();
+        JLabel countBinaryLabel = new JLabel();
+
+        busquedaPanel.add(countLinearLabel);
 
         JButton busquedaLinearButton = new JButton("Buscar");
         busquedaLinearButton.addActionListener(new ActionListener() {
@@ -154,7 +156,7 @@ public class InterfazUsuario {
                 String text = busquedaTextArea1.getText();
 
                 List<Integer> indices = BuscadorTextoLineal.buscar(text, word);
-                countLabel.setText("La palabra '" + word + "' se repite " + indices.size() + " veces.");
+                countLinearLabel.setText("La palabra '" + word + "' se repite " + indices.size() + " veces.");
 
                 Highlighter highlighter = busquedaTextArea1.getHighlighter();
                 Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.GREEN);
@@ -192,8 +194,7 @@ public class InterfazUsuario {
             ex.printStackTrace();
         }
 
-//AQUI EMPIEZA
-        // Remove the second declaration of busquedaButton
+//AQUI EMPIEza
         JTextField busquedaBinarioButton = new JTextField(20);
         busquedaPanel.add(new JLabel("Introduce la palabra a buscar (binario):"));
         busquedaPanel.add(busquedaBinarioButton);
@@ -203,29 +204,49 @@ public class InterfazUsuario {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String word = busquedaBinarioButton.getText();
-                String text = busquedaTextArea2.getText(); // Cambiado a busquedaTextArea2
+                String text = busquedaTextArea2.getText();
 
-                int index = BuscadorTextoBinario.buscar(text, word);
-                if (index != -1) {
-                    countLabel.setText("La palabra '" + word + "' se encontró en el índice " + index + ".");
-                } else {
-                    countLabel.setText("La palabra '" + word + "' no se encontró.");
-                }
-
-                Highlighter highlighter = busquedaTextArea2.getHighlighter(); // Cambiado a busquedaTextArea2
-                Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.GREEN);
+                Highlighter highlighter = busquedaTextArea2.getHighlighter();
+                Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.YELLOW);
                 highlighter.removeAllHighlights();
 
-                if (index != -1) {
+                int originalIndex = 0;
+                int index = 0;
+                while ((index = BuscadorTextoBinario.buscar(text, word)) != -1) {
                     try {
-                        highlighter.addHighlight(index, index + word.length(), painter);
+                        highlighter.addHighlight(originalIndex + index, originalIndex + index + word.length(), painter);
+                        originalIndex += index + word.length();
+                        text = text.substring(index + word.length());
                     } catch (BadLocationException ex) {
                         ex.printStackTrace();
                     }
                 }
+
+                if (highlighter.getHighlights().length > 0) {
+                    countBinaryLabel.setText("La palabra '" + word + "' se encontró " + highlighter.getHighlights().length + " veces.");
+                } else {
+                    countBinaryLabel.setText("La palabra '" + word + "' no se encontró.");
+                }
             }
         });
         busquedaPanel.add(busquedaBinariaButton);
+        busquedaPanel.add(countBinaryLabel);
+
+        JPanel fechasPanel = new JPanel();
+        JButton gestionFechasButton = new JButton("Gestión de Fechas");
+        gestionFechasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(mainPanel, "Fechas");
+            }
+        });
+        informacionPanel.add(gestionFechasButton);
+
+        mainPanel.add(fechasPanel, "Fechas");
+
+//Aqui termina el 3
+
+
 
 
         JPanel numericoPanel = new JPanel();

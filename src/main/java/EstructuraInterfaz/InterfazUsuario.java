@@ -241,8 +241,8 @@ public class InterfazUsuario {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Aquí puedes implementar la funcionalidad de búsqueda en texto
-                // Por ejemplo, puedes abrir un nuevo cuadro de diálogo para ingresar el texto de búsqueda
+
+
             }
         });
 
@@ -261,6 +261,7 @@ public class InterfazUsuario {
                 saveButton.setVisible(true);
                 sortButton.setVisible(true);
                 buttonOrganizacion.setVisible(false);
+                searchButton.setVisible(false);
             }
         });
 

@@ -1,12 +1,12 @@
-package GestiónInformaciónCientifica;
+package GestionInformacionCientifica;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class GestiónFechas {
+public class GestionFechas {
     private ArrayList<Fecha> fechas;
 
-    public GestiónFechas() {
+    public GestionFechas() {
         fechas = new ArrayList<>();
     }
 

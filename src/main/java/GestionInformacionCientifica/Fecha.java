@@ -1,7 +1,4 @@
-package GestiónInformaciónCientifica;
-
-import java.util.ArrayList;
-import java.util.Collections;
+package GestionInformacionCientifica;
 
 public class Fecha implements Comparable<Fecha> {
     private int dia;

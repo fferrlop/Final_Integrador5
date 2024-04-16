@@ -1,4 +1,4 @@
-package AnalisisNúmerico;
+package AnalisisNumerico;
 
 import java.util.ArrayList;
 import java.util.List;

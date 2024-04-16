@@ -1,10 +1,10 @@
-package GestiónInformaciónCientifica;
+package GestionInformacionCientifica;
 
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
-public class OrganizaciónDocumentos {
+public class OrganizacionDocumentos {
     public static void main(String[] args) {
         try {
             List<String> lines = Files.readAllLines(Paths.get("src/main/java/GestiónInformaciónCientifica/notas.txt"));

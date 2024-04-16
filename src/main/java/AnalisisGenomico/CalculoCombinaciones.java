@@ -1,4 +1,4 @@
-package AnalisisGenómico;
+package AnalisisGenomico;
 
 import java.util.ArrayList;
 import java.util.List;

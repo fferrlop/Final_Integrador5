@@ -1,4 +1,4 @@
-package AnalisisGenómico;
+package AnalisisGenomico;
 
 public class ConteoGenes {
     public static int contarGenes(String dna) throws Exception {

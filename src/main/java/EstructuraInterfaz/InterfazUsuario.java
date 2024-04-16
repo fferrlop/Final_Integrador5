@@ -4,11 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import AnalisisGenómico.ConteoGenes;
 import AnalisisGenómico.CalculoCombinaciones;
@@ -45,14 +48,79 @@ public class InterfazUsuario {
         });
         startPanel.add(buttonGenes);
 
-        JButton buttonInformacion = new JButton("Gestión de Información");
-        buttonInformacion.addActionListener(new ActionListener() {
+        JButton buttonInformacionInicio = new JButton("Gestión de Información");
+        buttonInformacionInicio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cardLayout.show(mainPanel, "Informacion");
             }
         });
-        startPanel.add(buttonInformacion);
+        startPanel.add(buttonInformacionInicio);
+
+        JPanel informacionPanel = new JPanel();
+
+        JButton buttonOrganizacion = new JButton("Organización de Documentos");
+        buttonOrganizacion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(mainPanel, "Organizacion");
+            }
+        });
+        informacionPanel.add(buttonOrganizacion);
+
+        JButton searchButton = new JButton("Buscar en texto");
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(mainPanel, "Busqueda");
+            }
+        });
+        informacionPanel.add(searchButton);
+
+        JPanel organizacionPanel = new JPanel();
+        JTextArea textArea = new JTextArea(5, 20);
+        organizacionPanel.add(new JScrollPane(textArea));
+
+        JButton saveButton = new JButton("Guardar");
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    FileWriter writer = new FileWriter("src/main/java/GestiónInformaciónCientifica/notas.txt");
+                    writer.write(textArea.getText());
+                    writer.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        JButton sortButton = new JButton("Ordenar alfabéticamente");
+        sortButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    List<String> lines = Files.readAllLines(Paths.get("src/main/java/GestiónInformaciónCientifica/notas.txt"));
+                    OrganizaciónDocumentos.quickSort(lines, 0, lines.size() - 1);
+                    BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/GestiónInformaciónCientifica/notasOrdenadas.txt"));
+                    for (String line : lines) {
+                        writer.write(line);
+                        writer.newLine();
+                    }
+                    writer.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        organizacionPanel.add(saveButton);
+        organizacionPanel.add(sortButton);
+
+
+
+        JPanel busquedaPanel = new JPanel();
+        // Aquí puedes agregar los componentes para la página de "Buscar en texto"
 
         JPanel numericoPanel = new JPanel();
         JTextField numberField = new JTextField(20);
@@ -181,46 +249,12 @@ public class InterfazUsuario {
         genesPanel.add(genesResultLabel);
         genesPanel.add(combinationsResultLabel);
 
-        JPanel informacionPanel = new JPanel();
-
-        buttonInformacion.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JButton buttonOrganizacion = new JButton("Organización de Documentos");
-                buttonOrganizacion.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        // Aquí puedes implementar la funcionalidad de organización de documentos
-                        // Por ejemplo, puedes abrir un nuevo cuadro de diálogo para mostrar la información organizada
-                        informacionPanel.remove(buttonOrganizacion);
-                        informacionPanel.revalidate();
-                        informacionPanel.repaint();
-                    }
-                });
-                informacionPanel.add(buttonOrganizacion);
-
-                JButton searchButton = new JButton("Buscar en texto");
-                searchButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        // Aquí puedes implementar la funcionalidad de búsqueda en texto
-                        // Por ejemplo, puedes abrir un nuevo cuadro de diálogo para ingresar el texto de búsqueda
-                        informacionPanel.remove(searchButton);
-                        informacionPanel.revalidate();
-                        informacionPanel.repaint();
-                    }
-                });
-                informacionPanel.add(searchButton);
-                informacionPanel.revalidate();
-                informacionPanel.repaint();
-            }
-        });
-        informacionPanel.add(buttonInformacion);
-
         mainPanel.add(startPanel, "Inicio");
         mainPanel.add(numericoPanel, "Numerico");
         mainPanel.add(genesPanel, "Genes");
         mainPanel.add(informacionPanel, "Informacion");
+        mainPanel.add(organizacionPanel, "Organizacion");
+        mainPanel.add(busquedaPanel, "Busqueda");
 
         cardLayout.show(mainPanel, "Inicio");
 

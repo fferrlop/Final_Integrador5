@@ -56,13 +56,13 @@ public class InterfazUsuario {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
         buttonPanel.setOpaque(false);
         buttonPanel.setOpaque(true);
-        buttonPanel.setBackground(new Color(0,0,0,0)); // Color transparente
+        buttonPanel.setBackground(new Color(0,0,0,0)); // transparente
 
 
 
 
 
-        //Botones que aparecerán al abrir el programa
+        //Botones en el inicio
         JButton buttonNumerico = new JButton("Análisis Numérico");
         EsteticaInicio.configurarBoton(buttonNumerico);
 
@@ -75,33 +75,33 @@ public class InterfazUsuario {
         JButton buttonQuicksort = new JButton("Quicksort");
         EsteticaInicio.configurarBoton(buttonQuicksort);
 
-        // Crear un JLayeredPane para superponer los componentes
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setLayout(new BorderLayout());
         layeredPane.setPreferredSize(new Dimension(800, 600)); // Ajustar al tamaño deseado
 
-// Crear el JLabel para la imagen de fondo
+//Fondo imagen
+
         JLabel background = new JLabel(new ImageIcon("src/main/resources/Fondo.png"));
-        background.setSize(background.getPreferredSize()); // Ajustar al tamaño de la imagen
+        background.setSize(background.getPreferredSize());
 
-// Crear el JPanel para los botones
+
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
-        buttonPanel.setOpaque(false); // Hacerlo transparente para que se vea la imagen de fondo
-        buttonPanel.setSize(buttonPanel.getPreferredSize()); // Ajustar al tamaño necesario
+        buttonPanel.setOpaque(false);
+        buttonPanel.setSize(buttonPanel.getPreferredSize());
 
-// Añadir los botones al panel
+
         EsteticaInicio.configurarPanelConBotones(buttonPanel, buttonGenes, buttonNumerico, buttonInformacionInicio, buttonQuicksort);
 
-// Añadir la imagen de fondo y el panel de botones al JLayeredPane
-        layeredPane.add(background, BorderLayout.CENTER); // La imagen de fondo ocupa todo el espacio disponible
-        layeredPane.setLayer(background, 1); // La imagen de fondo está en la capa 1 (detrás)
-        layeredPane.add(buttonPanel, BorderLayout.CENTER); // Los botones se superponen a la imagen de fondo
-        layeredPane.setLayer(buttonPanel, 2); // El panel de botones está en la capa 2 (delante)
+
+        layeredPane.add(background, BorderLayout.CENTER);
+        layeredPane.setLayer(background, 1);
+        layeredPane.add(buttonPanel, BorderLayout.CENTER);
+        layeredPane.setLayer(buttonPanel, 2);
 
         layeredPane.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                // Ajustar el tamaño del JLabel para que coincida con el tamaño del JLayeredPane
+
                 Image originalImage = new ImageIcon("src/main/resources/Fondo.png").getImage();
                 Image scaledImage = originalImage.getScaledInstance(layeredPane.getWidth(), layeredPane.getHeight(), Image.SCALE_SMOOTH);
                 background.setIcon(new ImageIcon(scaledImage));
@@ -111,8 +111,9 @@ public class InterfazUsuario {
 
         JPanel startPanel = new JPanel();
         startPanel.setLayout(new BorderLayout());
-// Añadir el JLayeredPane al panel principal
         startPanel.add(layeredPane);
+
+        //Fin fondo imagen
 
         mainPanel.add(startPanel, "Inicio");
 
@@ -122,7 +123,9 @@ public class InterfazUsuario {
         JPanel genesPanel = new JPanel();
         JTextField dnaField = new JTextField(20);
         JLabel genesResultLabel = new JLabel();
+        genesResultLabel.setForeground(Color.LIGHT_GRAY);
         JLabel combinationsResultLabel = new JLabel();
+        combinationsResultLabel.setForeground(Color.LIGHT_GRAY);
         JButton analyzeButton = new JButton("Analizar");
         analyzeButton.addActionListener(new ActionListener() {
             @Override
@@ -138,7 +141,10 @@ public class InterfazUsuario {
                 }
             }
         });
-        genesPanel.add(new JLabel("Introduce el patrón de ADN:"));
+        JLabel labelPatronADN = new JLabel("Introduce el patrón de ADN:");
+        labelPatronADN.setForeground(Color.LIGHT_GRAY);
+        genesPanel.add(labelPatronADN);
+
         genesPanel.add(dnaField);
         genesPanel.add(analyzeButton);
         genesPanel.add(genesResultLabel);
@@ -151,6 +157,7 @@ public class InterfazUsuario {
         JPanel numericoPanel = new JPanel();
         JTextField numberField = new JTextField(20);
         JLabel sumResultLabel = new JLabel();
+
         JButton analyzeNumberButton = new JButton("Analizar");
         analyzeNumberButton.addActionListener(new ActionListener() {
             @Override
@@ -168,7 +175,9 @@ public class InterfazUsuario {
                 }
             }
         });
-        numericoPanel.add(new JLabel("Introduce un número:"));
+        JLabel labelIntroduceNumero = new JLabel("Introduce un número:");
+        labelIntroduceNumero.setForeground(Color.LIGHT_GRAY);
+        numericoPanel.add(labelIntroduceNumero);
         numericoPanel.add(numberField);
         numericoPanel.add(analyzeNumberButton);
         numericoPanel.add(sumResultLabel);
@@ -195,12 +204,21 @@ public class InterfazUsuario {
                 }
             }
         });
-        numericoPanel.add(new JLabel("Introduce el inicio del rango:"));
+        JLabel labelInicioRango = new JLabel("Introduce el inicio del rango:");
+        labelInicioRango.setForeground(Color.LIGHT_GRAY);
+        numericoPanel.add(labelInicioRango);
         numericoPanel.add(rangeStartField);
-        numericoPanel.add(new JLabel("Introduce el fin del rango:"));
+
+        JLabel labelFinRango = new JLabel("Introduce el fin del rango:");
+        labelFinRango.setForeground(Color.LIGHT_GRAY);
+        numericoPanel.add(labelFinRango);
         numericoPanel.add(rangeEndField);
+
         numericoPanel.add(generateRangeButton);
-        numericoPanel.add(new JLabel("Números en el rango:"));
+
+        JLabel labelNumerosRango = new JLabel("Números en el rango:");
+        labelNumerosRango.setForeground(Color.LIGHT_GRAY);
+        numericoPanel.add(labelNumerosRango);
         numericoPanel.add(rangeResultArea);
 
         JTextField baseField = new JTextField(20);
@@ -220,16 +238,24 @@ public class InterfazUsuario {
                 }
             }
         });
-        numericoPanel.add(new JLabel("Introduce la base:"));
+        JLabel labelIntroduceBase = new JLabel("Introduce la base:");
+        labelIntroduceBase.setForeground(Color.LIGHT_GRAY);
+        numericoPanel.add(labelIntroduceBase);
         numericoPanel.add(baseField);
-        numericoPanel.add(new JLabel("Introduce el exponente:"));
+
+        JLabel labelIntroduceExponente = new JLabel("Introduce el exponente:");
+        labelIntroduceExponente.setForeground(Color.LIGHT_GRAY);
+        numericoPanel.add(labelIntroduceExponente);
         numericoPanel.add(exponentField);
         numericoPanel.add(calculatePowerButton);
         numericoPanel.add(powerResultLabel);
 
         JTextField numbersField = new JTextField(20);
         JLabel maxResultLabel = new JLabel();
+        maxResultLabel.setForeground(Color.LIGHT_GRAY);
+
         JButton findMaxButton = new JButton("Encontrar Máximo");
+
         findMaxButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -245,7 +271,9 @@ public class InterfazUsuario {
                 }
             }
         });
-        numericoPanel.add(new JLabel("Introduce los números (separados por comas):"));
+        JLabel labelIntroduceNumeros = new JLabel("Introduce los números (separados por comas):");
+        labelIntroduceNumeros.setForeground(Color.LIGHT_GRAY);
+        numericoPanel.add(labelIntroduceNumeros);
         numericoPanel.add(numbersField);
         numericoPanel.add(findMaxButton);
         numericoPanel.add(maxResultLabel);
@@ -341,11 +369,18 @@ public class InterfazUsuario {
         busquedaPanel.add(new JScrollPane(busquedaTextArea2));
 
         JTextField searchField = new JTextField(20);
-        busquedaPanel.add(new JLabel("Introduce la palabra a buscar:"));
+        JLabel labelIntroducePalabra = new JLabel("Introduce la palabra a buscar:");
+        labelIntroducePalabra.setForeground(Color.LIGHT_GRAY);
+        busquedaPanel.add(labelIntroducePalabra);
+        busquedaPanel.add(searchField);
+
         busquedaPanel.add(searchField);
 
         JLabel countLinearLabel = new JLabel();
+        countLinearLabel.setForeground(Color.LIGHT_GRAY);
+
         JLabel countBinaryLabel = new JLabel();
+        countBinaryLabel.setForeground(Color.LIGHT_GRAY);
 
         busquedaPanel.add(countLinearLabel);
 
@@ -397,7 +432,11 @@ public class InterfazUsuario {
 
         //AQUI EMPIEza
         JTextField busquedaBinarioButton = new JTextField(20);
-        busquedaPanel.add(new JLabel("Introduce la palabra a buscar (binario):"));
+
+        JLabel labelIntroducePalabraBinario = new JLabel("Introduce la palabra a buscar (binario):");
+        labelIntroducePalabraBinario.setForeground(Color.LIGHT_GRAY);
+        busquedaPanel.add(labelIntroducePalabraBinario);
+
         busquedaPanel.add(busquedaBinarioButton);
 
         JButton busquedaBinariaButton = new JButton("Buscar (binario)");
@@ -446,7 +485,11 @@ public class InterfazUsuario {
         informacionPanel.add(gestionFechasButton);
 
         JTextField fechaField = new JTextField(20);
-        fechasPanel.add(new JLabel("Introduce la fecha (dd/mm/aaaa):"));
+
+        JLabel labelIntroduceFecha = new JLabel("Introduce la fecha (dd/mm/aaaa):");
+        labelIntroduceFecha.setForeground(Color.LIGHT_GRAY);
+        fechasPanel.add(labelIntroduceFecha);
+
         fechasPanel.add(fechaField);
 
         JButton guardarFechaButton = new JButton("Guardar Fecha");
@@ -496,7 +539,11 @@ public class InterfazUsuario {
         }).start();
 
         JTextField fechaBorrarField = new JTextField(20);
-        fechasPanel.add(new JLabel("Introduce la fecha a borrar (dd/mm/aaaa):"));
+
+        JLabel labelIntroduceFechaBorrar = new JLabel("Introduce la fecha a borrar (dd/mm/aaaa):");
+        labelIntroduceFechaBorrar.setForeground(Color.LIGHT_GRAY);
+        fechasPanel.add(labelIntroduceFechaBorrar);
+
         fechasPanel.add(fechaBorrarField);
 
         JButton borrarFechaButton = new JButton("Borrar Fecha");
@@ -673,6 +720,19 @@ public class InterfazUsuario {
         fechasPanel.setBackground(customColor);
         genesPanel.setBackground(customColor);
         numericoPanel.setBackground(customColor);
+
+
+
+        labelPatronADN.setForeground(Color.LIGHT_GRAY);
+        genesResultLabel.setForeground(Color.LIGHT_GRAY);
+        combinationsResultLabel.setForeground(Color.LIGHT_GRAY);
+        sumResultLabel.setForeground(Color.LIGHT_GRAY);
+        powerResultLabel.setForeground(Color.LIGHT_GRAY);
+        maxResultLabel.setForeground(Color.LIGHT_GRAY);
+        countLinearLabel.setForeground(Color.LIGHT_GRAY);
+        countBinaryLabel.setForeground(Color.LIGHT_GRAY);
+
+
 
     }
 }

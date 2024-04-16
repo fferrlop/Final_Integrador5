@@ -38,4 +38,8 @@ public class EsteticaInicio {
 
         panel.add(Box.createVerticalGlue());
     }
+
+    public static void configurarColorEtiqueta(JLabel label, Color color) {
+        label.setForeground(color);
+    }
 }

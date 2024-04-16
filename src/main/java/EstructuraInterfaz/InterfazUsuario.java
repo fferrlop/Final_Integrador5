@@ -4,9 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -213,6 +211,31 @@ public class InterfazUsuario {
         informacionPanel.add(buttonOrganizacion);
         informacionPanel.add(textArea);
         informacionPanel.add(saveButton);
+
+        JButton sortButton = new JButton("Ordenar alfabéticamente");
+        JTextArea sortedTextArea = new JTextArea(5, 20);
+        sortedTextArea.setEditable(false);
+        sortedTextArea.setVisible(false);
+        sortButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    BufferedReader reader = new BufferedReader(new FileReader("src/main/java/GestiónInformaciónCientifica/notasOrdenadas.txt"));
+                    String line;
+                    StringBuilder sortedText = new StringBuilder();
+                    while ((line = reader.readLine()) != null) {
+                        sortedText.append(line).append("\n");
+                    }
+                    reader.close();
+                    sortedTextArea.setText(sortedText.toString());
+                    sortedTextArea.setVisible(true);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        informacionPanel.add(sortButton);
+        informacionPanel.add(sortedTextArea);
 
         mainPanel.add(informacionPanel, "Informacion");
 

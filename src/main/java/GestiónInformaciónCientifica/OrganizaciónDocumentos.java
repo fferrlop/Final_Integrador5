@@ -1,58 +1,43 @@
 package GestiónInformaciónCientifica;
 
 import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 
 public class OrganizaciónDocumentos {
-
-    public static void quickSort(String[] arr, int left, int right) {
-        int l, r;
-        String s;
-        while (right > left) {
-            l = left;
-            r = right;
-            s = arr[left];
-            while (l < r) {
-                while (arr[r].compareTo(s) > 0 && l < r) {
-                    r--;
-                }
-                if (l < r) {
-                    arr[l++] = arr[r];
-                }
-                while (arr[l].compareTo(s) <= 0 && l < r) {
-                    l++;
-                }
-                if (l < r) {
-                    arr[r--] = arr[l];
-                }
-            }
-            arr[l] = s;
-            quickSort(arr, left, l - 1);
-            left = l + 1;
-        }
-    }
-
     public static void main(String[] args) {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("notas.txt"));
-            List<String> lines = new ArrayList<>();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                lines.add(line);
-            }
-            reader.close();
-
-            String[] array = lines.toArray(new String[0]);
-            quickSort(array, 0, array.length - 1);
-
-            BufferedWriter writer = new BufferedWriter(new FileWriter("notas_ordenadas.txt"));
-            for (String sortedLine : array) {
-                writer.write(sortedLine);
+            List<String> lines = Files.readAllLines(Paths.get("src/main/java/GestiónInformaciónCientifica/notas.txt"));
+            quickSort(lines, 0, lines.size() - 1);
+            BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/java/GestiónInformaciónCientifica/notasOrdenadas.txt"));
+            for (String line : lines) {
+                writer.write(line);
                 writer.newLine();
             }
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void quickSort(List<String> list, int low, int high) {
+        if (low < high) {
+            int pi = partition(list, low, high);
+            quickSort(list, low, pi - 1);
+            quickSort(list, pi + 1, high);
+        }
+    }
+
+    public static int partition(List<String> list, int low, int high) {
+        String pivot = list.get(high);
+        int i = (low - 1);
+        for (int j = low; j < high; j++) {
+            if (list.get(j).compareTo(pivot) < 0) {
+                i++;
+                Collections.swap(list, i, j);
+            }
+        }
+        Collections.swap(list, i + 1, high);
+        return (i + 1);
     }
 }

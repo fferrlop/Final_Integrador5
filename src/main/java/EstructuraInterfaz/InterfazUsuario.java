@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.time.format.DateTimeParseException;
 
 import AnalisisGenómico.ConteoGenes;
 import AnalisisGenómico.CalculoCombinaciones;
@@ -256,14 +257,20 @@ public class InterfazUsuario {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String fecha = fechaField.getText();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 try {
-                    FileWriter writer = new FileWriter("src/main/java/ArchivosTexto/Fechas.txt", true);
-                    BufferedWriter bufferedWriter = new BufferedWriter(writer);
-                    bufferedWriter.write(fecha);
-                    bufferedWriter.newLine();
-                    bufferedWriter.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                    LocalDate.parse(fecha, formatter);
+                    try {
+                        FileWriter writer = new FileWriter("src/main/java/ArchivosTexto/Fechas.txt", true);
+                        BufferedWriter bufferedWriter = new BufferedWriter(writer);
+                        bufferedWriter.write(fecha);
+                        bufferedWriter.newLine();
+                        bufferedWriter.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                } catch (DateTimeParseException ex) {
+                    JOptionPane.showMessageDialog(null, "La fecha no sigue el formato dd/MM/yyyy", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -272,9 +279,10 @@ public class InterfazUsuario {
 
         mainPanel.add(fechasPanel, "Fechas");
 
-        JTextArea fechasArea = new JTextArea(10, 30);
+        JTextArea fechasArea = new JTextArea(10, 15);
         fechasArea.setEditable(false);
-        fechasPanel.add(new JScrollPane(fechasArea));
+        JScrollPane fechasScrollPane = new JScrollPane(fechasArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        fechasPanel.add(fechasScrollPane);
 
         int delay = 1000; //milisegundos
         new Timer(delay, new ActionListener() {
@@ -312,9 +320,10 @@ public class InterfazUsuario {
         });
         fechasPanel.add(ordenarFechasButton);
 
-        JTextArea fechasOrdenadasArea = new JTextArea(10, 30);
+        JTextArea fechasOrdenadasArea = new JTextArea(10, 15);
         fechasOrdenadasArea.setEditable(false);
-        fechasPanel.add(new JScrollPane(fechasOrdenadasArea));
+        JScrollPane fechasOrdenadasScrollPane = new JScrollPane(fechasOrdenadasArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        fechasPanel.add(fechasOrdenadasScrollPane);
 
         int delay2 = 1000; //milliseconds
         new Timer(delay, new ActionListener() {

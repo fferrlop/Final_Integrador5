@@ -21,6 +21,12 @@ public class GraficoBarras extends JPanel {
                 int x = i * width;
                 int y = getHeight() - bar.getHeight();
                 g.fillRect(x, y, width, bar.getHeight());
+
+                // Dibujar el valor de la barra
+                g.setColor(Color.BLUE);
+                g.setFont(new Font("Arial", Font.BOLD, 20)); // Ajustar la fuente
+                g.drawString(String.valueOf(bar.getValue()), x + width / 2, y);
+                g.setColor(Color.LIGHT_GRAY); // Cambiar el color de nuevo para las barras
             }
         }
     }

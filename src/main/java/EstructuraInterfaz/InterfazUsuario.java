@@ -191,6 +191,7 @@ public class InterfazUsuario {
         textArea.setVisible(false);
         JButton saveButton = new JButton("Guardar");
         saveButton.setVisible(false);
+        JButton searchButton = new JButton("Buscar en texto");
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -236,11 +237,32 @@ public class InterfazUsuario {
                 buttonOrganizacion.setVisible(false);
             }
         });
+
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Aquí puedes implementar la funcionalidad de búsqueda en texto
+                // Por ejemplo, puedes abrir un nuevo cuadro de diálogo para ingresar el texto de búsqueda
+            }
+        });
+
+        informacionPanel.add(buttonOrganizacion);
+        informacionPanel.add(searchButton);
         informacionPanel.add(buttonOrganizacion);
         informacionPanel.add(textArea);
         informacionPanel.add(saveButton);
         informacionPanel.add(sortButton);
         informacionPanel.add(sortedTextArea);
+
+        buttonOrganizacion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                textArea.setVisible(true);
+                saveButton.setVisible(true);
+                sortButton.setVisible(true);
+                buttonOrganizacion.setVisible(false);
+            }
+        });
 
         mainPanel.add(informacionPanel, "Informacion");
 

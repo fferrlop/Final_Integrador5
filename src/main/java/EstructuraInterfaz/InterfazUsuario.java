@@ -123,13 +123,22 @@ public class InterfazUsuario {
         organizacionPanel.add(saveButton);
         organizacionPanel.add(sortButton);
 
-        organizacionPanel.add(saveButton);
-        organizacionPanel.add(sortButton);
-
-
 
         JPanel busquedaPanel = new JPanel();
-        // Aquí puedes agregar los componentes para la página de "Buscar en texto"
+        JTextArea busquedaTextArea = new JTextArea(20, 18);
+        busquedaTextArea.setEditable(false);
+        busquedaPanel.add(new JScrollPane(busquedaTextArea));
+
+        try {
+            List<String> lines = Files.readAllLines(Paths.get("src/main/java/ArchivosTexto/Texto.txt"));
+            StringBuilder text = new StringBuilder();
+            for (String line : lines) {
+                text.append(line).append("\n");
+            }
+            busquedaTextArea.setText(text.toString());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
         JPanel numericoPanel = new JPanel();
         JTextField numberField = new JTextField(20);
